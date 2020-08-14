@@ -1,0 +1,8 @@
+$theme-colors: map-merge(
+  $theme-colors,
+  (
+    primary: #46c3d2
+  )
+);
+
+$font-family-base: Monsterrat, $font-family-sans-serif;
