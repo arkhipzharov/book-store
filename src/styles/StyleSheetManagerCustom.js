@@ -4,7 +4,7 @@ import { StyleSheetManager } from 'styled-components';
 export const StyleSheetManagerCustom = ({ children }) => {
   return (
     <StyleSheetManager
-      // pending
+      // (pending)
       // prefixes not added in production if NODE_ENV is `production`,
       // but we keep env check to not disable some functionality accidentally.
       // See this repo to reproduce - https://github.com/shiftenko/css-prefixes-demo

@@ -4,4 +4,4 @@
 // 1. disable webpack
 // 2. set new value
 // 3. enable webpack
-export const ICONS_CACHE_REVISION = 2.1;
+export const ICONS_CACHE_REVISION = 2.31;

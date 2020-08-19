@@ -4,6 +4,7 @@ import { Main } from './Main';
 import { Cart } from './Cart';
 import { Favorite } from './Favorite';
 import { Login } from './Login';
+import { PageNotFound } from './PageNotFound';
 
 export const Pages = () => {
   return (
@@ -20,6 +21,9 @@ export const Pages = () => {
         </Route>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route path="*">
+          <PageNotFound />
         </Route>
       </Switch>
     </Container>

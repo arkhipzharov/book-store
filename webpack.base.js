@@ -16,12 +16,15 @@ module.exports = (env) => {
     entry: './src/main.js',
     resolve: {
       // import './file-name-without-extension'
-      extensions: ['*', '.js', '.scss'],
+      extensions: ['*', '.js', '.scss', '.css'],
       // import './folder' instead of './folder/index.ext'
       plugins: [new DirectoryNamedWebpackPlugin(true)],
       alias: {
         // import '@/file' instead of import '../../../file'
         '@': path.resolve(__dirname, 'src'),
+        // `Can't resolve 'jquery' in '.../node_modules/bootstrap-slider/dist'`
+        // https://github.com/brownieboy/react-bootstrap-slider#jquery
+        'jquery': path.join(__dirname, 'jquery-stub.js'),
       },
     },
     module: {
@@ -33,7 +36,7 @@ module.exports = (env) => {
         },
         {
           // using scss only to customize bootstrap theme styles
-          test: /\.scss$/,
+          test: /\.(scss|css)$/,
           use: [
             isEnvProduction ? MiniCssExtractPlugin.loader : 'style-loader',
             {

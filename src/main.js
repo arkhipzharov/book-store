@@ -1,5 +1,4 @@
 import ReactDOM from 'react-dom';
-import { Normalize } from 'styled-normalize';
 import { HashRouter as Router } from 'react-router-dom';
 // import { Provider } from 'react-redux';
 import { GlobalStyles } from './styles/GlobalStyles';
@@ -7,6 +6,11 @@ import { StyleSheetManagerCustom } from './styles/StyleSheetManagerCustom';
 import { App } from './components/App';
 // import store from './store';
 import './js/startup';
+// eslint-import-resolver-webpack can't handle css file imports,
+// but we are not ignoring that imports in config to not swallow possible errors
+// so you should import file with .css (or .scss/etc) extension instead of shorter path
+// https://github.com/benmosher/eslint-plugin-import/issues/151#issuecomment-167003063
+import 'bootstrap-slider/dist/css/bootstrap-slider.css';
 
 const Root = () => {
   return (
@@ -19,7 +23,6 @@ const Root = () => {
     // https://stackoverflow.com/a/61897567
     // <React.StrictMode>
     <>
-      <Normalize />
       <GlobalStyles />
       <StyleSheetManagerCustom>
         <Router>

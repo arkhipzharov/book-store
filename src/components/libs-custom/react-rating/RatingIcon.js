@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
-
 import { Icon } from '@/components/Icon';
 
 export const RatingIcon = ({ isEmpty }) => (
-  <Icon href={isEmpty ? 'rating-border' : 'rating'} className="w-8 h-8" />
+  <Icon
+    href={`rating${isEmpty ? '-border' : ''}`}
+    className="w-8 h-8 text-yellow"
+  />
 );
 
 RatingIcon.propTypes = {

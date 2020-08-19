@@ -110,6 +110,28 @@ module.exports = {
         reservedFirst: true,
       },
     ],
+    /*
+      <h3>
+        No match for <code>{location.pathname}</code>
+      </h3>
+
+      ``code` must be placed on a new line`
+      https://github.com/yannickcr/eslint-plugin-react/issues/1848
+    */
+    'react/jsx-one-expression-per-line': 'off',
+    /*
+      function ReactBootstrapSliderWrapper(props) {
+        return <ReactBootstrapSlider {...props} />;
+      },
+
+      const WrapperButton = ({ children, ...props }) => {
+        return <Button {...props}>{children}</Button>;
+      };
+
+      if we want type safety we should write custom prop-type validator for
+      every component remaining props, it's quite boilerplate
+    */
+    'react/jsx-props-no-spreading': 'off',
   },
   settings: {
     'import/resolver': {
