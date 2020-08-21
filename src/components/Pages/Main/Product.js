@@ -3,7 +3,10 @@ import { Card, Badge, Button } from 'react-bootstrap';
 import { Icon } from '@/components/Icon';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { WrapperButton, Rating } from '@/components/libs-custom';
+import {
+  WrapperButton,
+  ReactStarRatingComponent,
+} from '@/components/libs-custom';
 import { ProductData } from '@/js/types/ProductData';
 
 export const Product = ({ data }) => {
@@ -22,10 +25,14 @@ export const Product = ({ data }) => {
         </Card.Subtitle>
         <Card.Title as="h5">Description</Card.Title>
         <Card.Text>{data.description}</Card.Text>
-        <Card.Title as="h5">Example text</Card.Title>
+        <Card.Title as="h5">Example Text</Card.Title>
         <Card.Text>{data.example_text}</Card.Text>
-        <div className="mb-2">
-          <Rating className="mr-2" initialRating={data.rating} readonly />
+        <div className="mb-2 d-flex align-items-center">
+          <ReactStarRatingComponent
+            className="mr-2"
+            value={data.rating}
+            editing={false}
+          />
           <Badge variant="primary">
             <strong>{data.reviews.length}</strong>
           </Badge>

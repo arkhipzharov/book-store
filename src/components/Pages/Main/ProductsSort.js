@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { capitalizeFirstLetter } from '@/js/helpers';
+import _ from 'lodash';
 import { SortOptionToggle } from './SortOptionToggle';
 
 const sortOptionTipsData = {
@@ -23,20 +23,20 @@ export const ProductsSort = ({
   };
   return (
     <div className={className}>
-      <span className="mb-2 d-block">Sort by:</span>
+      <h4 className="mb-3">Sort</h4>
       <div className="mr-n2">
         {Object.entries(isSortOptionsToggledDataState).map(([key, value]) => (
           <SortOptionToggle
             key={key}
             isToggled={value.isToggled}
             isToggledOnce={value.isToggledOnce}
-            isNotHaveIncreaseDirection={value.isNotHaveIncreaseDirection}
+            isCanNotToggleIncreaseDirection={value.isIncreaseDown !== undefined}
             className="mr-2"
             onClick={() => {
               onSortOptionsToggleClick(key);
             }}
           >
-            {`${capitalizeFirstLetter(key)} ${getSortOptionTipTextByKey(key)}`}
+            {`${_.upperFirst(key)} ${getSortOptionTipTextByKey(key)}`}
           </SortOptionToggle>
         ))}
       </div>
@@ -51,7 +51,7 @@ ProductsSort.propTypes = {
     PropTypes.shape({
       isToggled: PropTypes.bool.isRequired,
       isToggledOnce: PropTypes.bool.isRequired,
-      isNotHaveIncreaseDirection: PropTypes.bool,
+      isIncreaseDown: PropTypes.bool,
     }),
   ),
 };

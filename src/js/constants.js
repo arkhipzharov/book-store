@@ -4,4 +4,13 @@
 // 1. disable webpack
 // 2. set new value
 // 3. enable webpack
-export const ICONS_CACHE_REVISION = 2.31;
+const ICONS_CACHE_REVISION = 2.31;
+const STARTUP_SORT_PRODUCTS_BY_DATA_KEY = 'price';
+const BASE_FONT_SIZE = 16;
+
+// not es6 export because constants can be used in configs
+module.exports = {
+  ICONS_CACHE_REVISION,
+  STARTUP_SORT_PRODUCTS_BY_DATA_KEY,
+  BASE_FONT_SIZE,
+};

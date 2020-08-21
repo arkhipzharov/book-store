@@ -1,4 +1,7 @@
+const { BASE_FONT_SIZE } = require('./src/js/constants');
+
 const isEnvProduction = process.env.NODE_ENV === 'development';
+
 const presets = [
   '@babel/preset-env',
   '@babel/preset-react',
@@ -9,7 +12,7 @@ const plugins = [
   '@babel/plugin-transform-runtime',
   ['babel-plugin-styled-components-px2rem', {
     // root font size
-    rootValue: 16,
+    rootValue: BASE_FONT_SIZE,
     /*
       const Svg = styled.svg`
         width: ${({ $width }) => $width}px;

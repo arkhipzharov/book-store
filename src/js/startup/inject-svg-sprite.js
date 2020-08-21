@@ -1,4 +1,4 @@
-import { ICONS_CACHE_REVISION } from '@/js/utils/constants';
+import { ICONS_CACHE_REVISION } from '@/js/constants';
 // this lib puts svgSpriteInjector in window, that's why we just import file
 // contents
 import svgSpriteInjector from '@/js/libs-custom/svgSpriteInjector';

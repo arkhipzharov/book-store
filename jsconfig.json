@@ -3,7 +3,7 @@
     // vscode path completion fix
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
     }
   },
 }

@@ -1,23 +1,23 @@
-import { CardColumns } from 'react-bootstrap';
 import { useEffect, useState, useReducer } from 'react';
-import { delay, sortByKey } from '@/js/helpers';
-import styled from 'styled-components';
-import { Product } from './Product';
+import { delay } from '@/js/helpers';
+import { STARTUP_SORT_PRODUCTS_BY_DATA_KEY } from '@/js/constants';
+import _ from 'lodash';
 import { ProductsFilterForm } from './ProductsFilterForm';
 import { ProductsSort } from './ProductsSort';
+import { ProductsGrid } from './ProductsGrid';
 
 const productsDataFake = [
   {
     name: 'a',
     category: 'dystopia',
     description: `
-      Description Lorem ipsum dolor sit, amet consectetur adipisicing elit
+      Description dystopia ipsum dolor sit, amet consectetur adipisicing elit
     `,
     price: 4,
     rating: 4,
     cover_img_url: 'https://google.com',
     example_text: `
-      Example text Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      Example text dystopia ipsum dolor sit amet consectetur adipisicing elit.
       Iste nobis labore soluta?
     `,
     author: 'George Orwell',
@@ -33,16 +33,16 @@ const productsDataFake = [
     name: 'c',
     category: 'comedy',
     description: `
-      Description Lorem ipsum dolor sit, amet consectetur adipisicing elit
+      Description comedy ipsum dolor sit, amet consectetur adipisicing elit
     `,
     price: 1,
     rating: 5,
     cover_img_url: 'https://google.com',
     example_text: `
-      Example text Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      Example text comedy ipsum dolor sit amet consectetur adipisicing elit.
       Iste nobis labore soluta?
     `,
-    author: 'George Orwell',
+    author: 'Aldous Huxley',
     reviews: [
       {
         username: 'David',
@@ -55,16 +55,16 @@ const productsDataFake = [
     name: 'b',
     category: 'drama',
     description: `
-      Description Lorem ipsum dolor sit, amet consectetur adipisicing elit
+      Description drama ipsum dolor sit, amet consectetur adipisicing elit
     `,
     price: 8,
     rating: 2,
     cover_img_url: 'https://google.com',
     example_text: `
-      Example text Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      Example text drama ipsum dolor sit amet consectetur adipisicing elit.
       Iste nobis labore soluta?
     `,
-    author: 'George Orwell',
+    author: 'Alexander Pushkin',
     reviews: [
       {
         username: 'David',
@@ -74,20 +74,6 @@ const productsDataFake = [
     ],
   },
 ];
-
-const sortFunctionsData = {
-  increaseDown: (value1, value2) => value1 - value2,
-  increaseUp: (value1, value2) => value2 - value1,
-  name: (value1, value2) => {
-    if (value1 < value2) {
-      return -1;
-    }
-    if (value1 > value2) {
-      return 1;
-    }
-    return 0;
-  },
-};
 
 export const Products = () => {
   const baseIsSortOptionsToggledDataState = {
@@ -102,53 +88,114 @@ export const Products = () => {
     name: {
       isToggled: false,
       isToggledOnce: false,
-      isNotHaveIncreaseDirection: true,
+      isIncreaseDown: true,
     },
   };
   const [
     isSortOptionsToggledDataState,
     setIsSortOptionsToggledDataState,
   ] = useState(baseIsSortOptionsToggledDataState);
-  const sortProductsData = (productsDataToSort, dataKeyToSortWith) => {
-    const sortFun = sortFunctionsData[dataKeyToSortWith];
-    let sortFunFinal;
-    if (sortFun) {
-      sortFunFinal = sortFun;
+  const sortProductsData = (productsDataToSort, { dataKeyToSortWith }) => {
+    const { isToggled, isIncreaseDown } = isSortOptionsToggledDataState[
+      dataKeyToSortWith
+    ];
+    let sortDirection;
+    if (isIncreaseDown === undefined) {
+      sortDirection = isToggled ? 'asc' : 'desc';
     } else {
-      const { increaseDown, increaseUp } = sortFunctionsData;
-      if (isSortOptionsToggledDataState[dataKeyToSortWith].isToggled) {
-        sortFunFinal = increaseDown;
-      } else {
-        sortFunFinal = increaseUp;
-      }
+      sortDirection = isIncreaseDown ? 'asc' : 'desc';
     }
-    return productsDataToSort.sort(sortByKey(dataKeyToSortWith, sortFunFinal));
+    return _.orderBy(
+      productsDataToSort,
+      [(data) => data[dataKeyToSortWith]],
+      [sortDirection],
+    );
   };
-  const [{ isLoaded, productsData }, dispatchProductsDataLoad] = useReducer(
+  const filterProductsDataByInputs = (
+    productsDataToFilter,
+    { filterInputsData },
+  ) => {
+    const inputDataEntries = Object.entries(filterInputsData);
+    const inputDataEntriesFiltered = inputDataEntries.filter(
+      (entry) => entry[1],
+    );
+    const filterFunctions = inputDataEntriesFiltered.map(([name, value]) => {
+      const valueNum = +value;
+      const inputNameForCaseInsensitiveSearch = name.toLowerCase();
+      const isMin = inputNameForCaseInsensitiveSearch.includes('min');
+      const isMax = inputNameForCaseInsensitiveSearch.includes('max');
+      return (data) => {
+        let compareCondition;
+        if (isMin || isMax) {
+          const regExp = new RegExp(isMin ? 'min' : 'max', 'i');
+          const dataKey = name.slice(name.search(regExp) + 3).toLowerCase();
+          const dataValue = data[dataKey];
+          compareCondition = isMin
+            ? dataValue >= valueNum
+            : dataValue <= valueNum;
+        } else {
+          compareCondition = data[name] === valueNum;
+        }
+        return valueNum && compareCondition;
+      };
+    }, []);
+    return productsDataToFilter.filter((data) => {
+      return filterFunctions.every((fun) => fun(data));
+    });
+  };
+  const productsDataChangeFunctions = {
+    sort: sortProductsData,
+    filter: filterProductsDataByInputs,
+  };
+  const [productsDataLoadState, dispatchProductsDataLoad] = useReducer(
     (state, action) => {
       switch (action.type) {
         case 'LOADED':
           return {
+            ...state,
             productsData: sortProductsData(
               action.payload.productsData,
-              'price',
+              action.payload,
             ),
             isLoaded: true,
           };
-        case 'SORT':
+        case 'CHANGE': {
+          const { kindOf } = action.payload;
+          const productsDataChanged = productsDataChangeFunctions[kindOf](
+            state.productsData,
+            action.payload,
+          );
           return {
             ...state,
-            productsData: sortProductsData(
-              state.productsData,
-              action.payload.sortOptionName,
-            ),
+            ...(productsDataChanged.length > 0
+              ? {
+                  productsData: productsDataChanged,
+                  productsDataInvalidKindOfChange: '',
+                }
+              : { productsDataInvalidKindOfChange: kindOf }),
           };
+        }
         default:
           throw new Error();
       }
     },
-    { productsData: [], isLoaded: false },
+    { productsData: [], isLoaded: false, productsDataInvalidKindOfChange: '' },
   );
+  const {
+    productsData,
+    isLoaded,
+    productsDataInvalidKindOfChange,
+  } = productsDataLoadState;
+  const loadProductsData = async () => {
+    await delay(1000);
+    dispatchProductsDataLoad({
+      type: 'LOADED',
+      payload: {
+        productsData: productsDataFake,
+        dataKeyToSortWith: STARTUP_SORT_PRODUCTS_BY_DATA_KEY,
+      },
+    });
+  };
   const onSortOptionsToggleClick = (dataKeyToSortWith) => {
     const isSortOptionsToggledData =
       isSortOptionsToggledDataState[dataKeyToSortWith];
@@ -161,19 +208,19 @@ export const Products = () => {
       },
     });
     dispatchProductsDataLoad({
-      type: 'SORT',
+      type: 'CHANGE',
       payload: {
-        sortOptionName: dataKeyToSortWith,
+        dataKeyToSortWith,
+        kindOf: 'sort',
       },
     });
-    // sortProductsData(dataKeyToSortWith);
   };
-  const loadProductsData = async () => {
-    await delay(1000);
+  const onFilterFormSubmit = (filterInputsData) => {
     dispatchProductsDataLoad({
-      type: 'LOADED',
+      type: 'CHANGE',
       payload: {
-        productsData: productsDataFake,
+        filterInputsData,
+        kindOf: 'filter',
       },
     });
   };
@@ -182,36 +229,21 @@ export const Products = () => {
   }, []);
   return (
     <>
-      <h4 className="mb-3">Filter</h4>
       <ProductsFilterForm
         productsData={productsData}
         isLoaded={isLoaded}
         className="mb-3"
+        onSubmit={onFilterFormSubmit}
       />
       <ProductsSort
         isSortOptionsToggledDataState={isSortOptionsToggledDataState}
-        className="mb-3"
+        className="mb-4"
         onSortOptionsToggleClick={onSortOptionsToggleClick}
       />
-      <StyledCardColumns>
-        {productsData.map((data) => (
-          <Product key={data.name} data={data} />
-        ))}
-      </StyledCardColumns>
+      <ProductsGrid
+        productsData={productsData}
+        productsDataInvalidKindOfChange={productsDataInvalidKindOfChange}
+      />
     </>
   );
 };
-
-const StyledCardColumns = styled(CardColumns)`
-  @media (min-width: 576px) {
-    column-count: 1;
-  }
-
-  @media (min-width: 768px) {
-    column-count: 2;
-  }
-
-  @media (min-width: 992px) {
-    column-count: 3;
-  }
-`;

@@ -1,2 +1,2 @@
 export * from './react-bootstrap';
-export * from './react-rating';
+export { ReactStarRatingComponent } from './ReactStarRatingComponent';

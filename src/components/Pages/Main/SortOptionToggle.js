@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 export const SortOptionToggle = ({
   children,
-  isNotHaveIncreaseDirection = false,
+  isCanNotToggleIncreaseDirection = false,
   isToggled = false,
   isToggledOnce = false,
   onClick,
@@ -14,7 +14,7 @@ export const SortOptionToggle = ({
   const [buttonVariant, setButtonVariant] = useState('outline-primary');
   const setButtonNewVariant = () => {
     let variantNew = 'outline-primary';
-    if (isNotHaveIncreaseDirection) {
+    if (isCanNotToggleIncreaseDirection) {
       if (isToggledOnce) {
         variantNew = 'primary';
       }
@@ -35,7 +35,7 @@ export const SortOptionToggle = ({
       onClick={onClick}
     >
       <span>{children}</span>
-      {isToggledOnce && !isNotHaveIncreaseDirection && (
+      {isToggledOnce && !isCanNotToggleIncreaseDirection && (
         <Icon
           className="w-6 h-6"
           href={`arrow-drop-${isToggled ? 'down' : 'up'}`}
@@ -47,7 +47,7 @@ export const SortOptionToggle = ({
 
 SortOptionToggle.propTypes = {
   children: PropTypes.node.isRequired,
-  isNotHaveIncreaseDirection: PropTypes.bool,
+  isCanNotToggleIncreaseDirection: PropTypes.bool,
   isToggled: PropTypes.bool.isRequired,
   isToggledOnce: PropTypes.bool,
   className: PropTypes.string,
