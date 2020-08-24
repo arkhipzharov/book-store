@@ -1,4 +1,4 @@
-const { BASE_FONT_SIZE } = require('./src/js/constants');
+const { BASE_FONT_SIZE } = require('./src/js/constants/constants');
 
 const isEnvProduction = process.env.NODE_ENV === 'development';
 

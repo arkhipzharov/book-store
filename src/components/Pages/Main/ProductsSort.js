@@ -1,23 +1,46 @@
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { CHANGE } from '@/js/reducers/productsDataLoad';
 import { SortOptionToggle } from './SortOptionToggle';
 
-const sortOptionTipsData = {
+const SORT_OPTION_TIPS_DATA = {
   name: 'A-Z',
 };
 
 export const ProductsSort = ({
   isSortOptionsToggledDataState,
-  onSortOptionsToggleClick,
+  setIsSortOptionsToggledDataState,
+  dispatchProductsDataLoad,
+  BASE_IS_SORT_OPTIONS_TOGGLED_DATA_STATE,
   className,
 }) => {
+  const onSortOptionsToggleClick = (dataKeyToSortWith) => {
+    const isSortOptionsToggledData =
+      isSortOptionsToggledDataState[dataKeyToSortWith];
+    setIsSortOptionsToggledDataState({
+      ...BASE_IS_SORT_OPTIONS_TOGGLED_DATA_STATE,
+      [dataKeyToSortWith]: {
+        ...isSortOptionsToggledData,
+        isToggled: !isSortOptionsToggledData.isToggled,
+        isToggledOnce: true,
+      },
+    });
+    dispatchProductsDataLoad({
+      type: CHANGE,
+      payload: {
+        dataKeyToSortWith,
+        kindOf: 'sort',
+        isSortOptionsToggledDataState,
+      },
+    });
+  };
   const getSortOptionTipTextByKey = (key) => {
-    const matchingTipKey = Object.keys(sortOptionTipsData).find(
+    const matchingTipKey = Object.keys(SORT_OPTION_TIPS_DATA).find(
       (tipKey) => tipKey === key,
     );
     let tip = '';
     if (matchingTipKey) {
-      tip = `(${sortOptionTipsData[matchingTipKey]})`;
+      tip = `(${SORT_OPTION_TIPS_DATA[matchingTipKey]})`;
     }
     return tip;
   };
@@ -28,10 +51,10 @@ export const ProductsSort = ({
         {Object.entries(isSortOptionsToggledDataState).map(([key, value]) => (
           <SortOptionToggle
             key={key}
+            className="mr-2"
+            isCanNotToggleIncreaseDirection={value.isIncreaseDown !== undefined}
             isToggled={value.isToggled}
             isToggledOnce={value.isToggledOnce}
-            isCanNotToggleIncreaseDirection={value.isIncreaseDown !== undefined}
-            className="mr-2"
             onClick={() => {
               onSortOptionsToggleClick(key);
             }}
@@ -45,13 +68,21 @@ export const ProductsSort = ({
 };
 
 ProductsSort.propTypes = {
+  BASE_IS_SORT_OPTIONS_TOGGLED_DATA_STATE: PropTypes.objectOf(
+    PropTypes.shape({
+      isToggled: PropTypes.bool.isRequired,
+      isToggledOnce: PropTypes.bool.isRequired,
+      isIncreaseDown: PropTypes.bool,
+    }),
+  ).isRequired,
   className: PropTypes.string,
-  onSortOptionsToggleClick: PropTypes.func.isRequired,
+  dispatchProductsDataLoad: PropTypes.func.isRequired,
   isSortOptionsToggledDataState: PropTypes.objectOf(
     PropTypes.shape({
       isToggled: PropTypes.bool.isRequired,
       isToggledOnce: PropTypes.bool.isRequired,
       isIncreaseDown: PropTypes.bool,
     }),
-  ),
+  ).isRequired,
+  setIsSortOptionsToggledDataState: PropTypes.func.isRequired,
 };

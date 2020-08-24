@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
 import { ProductData } from '@/js/types/ProductData';
-import styled from 'styled-components';
-import { CardColumns } from 'react-bootstrap';
 import _ from 'lodash';
-import { Product } from './Product';
+import { ProductsGrid } from '@/components/ProductsGrid';
 
-const productsDataInvalidAfterChangeTextsData = {
+const PRODUCTS_DATA_INVALID_AFTER_CHANGE_DATA = {
   sort: {
     text: 'something went wrong with products sorting',
     isMistake: true,
@@ -13,7 +11,7 @@ const productsDataInvalidAfterChangeTextsData = {
   filter: 'no products fas found with applied filters',
 };
 
-export const ProductsGrid = ({
+export const ProductsGridWithValidation = ({
   productsData,
   productsDataInvalidKindOfChange,
 }) => {
@@ -21,17 +19,13 @@ export const ProductsGrid = ({
   let productsDataInvalidTextOrData;
   if (productsDataInvalidKindOfChange) {
     productsDataInvalidTextOrData =
-      productsDataInvalidAfterChangeTextsData[productsDataInvalidKindOfChange];
+      PRODUCTS_DATA_INVALID_AFTER_CHANGE_DATA[productsDataInvalidKindOfChange];
     productsDataInvalidText = productsDataInvalidTextOrData.isMistake
       ? productsDataInvalidTextOrData.text
       : productsDataInvalidTextOrData;
   }
   return !productsDataInvalidKindOfChange ? (
-    <StyledCardColumns>
-      {productsData.map((data) => (
-        <Product key={data.name} data={data} />
-      ))}
-    </StyledCardColumns>
+    <ProductsGrid productsData={productsData} />
   ) : (
     <h4>
       {`
@@ -46,21 +40,7 @@ export const ProductsGrid = ({
   );
 };
 
-ProductsGrid.propTypes = {
-  productsData: PropTypes.arrayOf(PropTypes.shape(ProductData)),
+ProductsGridWithValidation.propTypes = {
+  productsData: PropTypes.arrayOf(PropTypes.shape(ProductData)).isRequired,
   productsDataInvalidKindOfChange: PropTypes.string.isRequired,
 };
-
-const StyledCardColumns = styled(CardColumns)`
-  @media (min-width: 576px) {
-    column-count: 1;
-  }
-
-  @media (min-width: 768px) {
-    column-count: 2;
-  }
-
-  @media (min-width: 992px) {
-    column-count: 3;
-  }
-`;

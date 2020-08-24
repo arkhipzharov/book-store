@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 export const Header = () => {
   return (
     <Container className="mb-3">
-      <Navbar expand="lg" className="px-0">
+      <Navbar className="px-0" expand="lg">
         <div className="d-flex w-100 justify-content-between">
           <Navbar.Brand as={NavLink} to="/">
             Book Store

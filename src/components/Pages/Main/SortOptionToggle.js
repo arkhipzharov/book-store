@@ -28,9 +28,9 @@ export const SortOptionToggle = ({
   }, [isToggled, isToggledOnce]);
   return (
     <Button
-      size="sm"
       active={isToggledOnce}
       className={className}
+      size="sm"
       variant={buttonVariant}
       onClick={onClick}
     >
@@ -49,7 +49,7 @@ SortOptionToggle.propTypes = {
   children: PropTypes.node.isRequired,
   isCanNotToggleIncreaseDirection: PropTypes.bool,
   isToggled: PropTypes.bool.isRequired,
-  isToggledOnce: PropTypes.bool,
+  isToggledOnce: PropTypes.bool.isRequired,
   className: PropTypes.string,
   onClick: PropTypes.func,
 };

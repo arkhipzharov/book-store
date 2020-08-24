@@ -10,7 +10,7 @@ export const Pages = () => {
   return (
     <Container>
       <Switch>
-        <Route path="/" exact>
+        <Route exact path="/">
           <Main />
         </Route>
         <Route path="/cart">

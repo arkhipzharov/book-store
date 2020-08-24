@@ -1,3 +1,6 @@
+import { ProductsGrid } from '@/components/ProductsGrid';
+import { PRODUCTS_DATA_FAKE } from '@/js/constants';
+
 export const Cart = () => {
-  return <div>Cart</div>;
+  return <ProductsGrid productsData={PRODUCTS_DATA_FAKE} isCart />;
 };

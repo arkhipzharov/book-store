@@ -6,7 +6,7 @@ export const Icon = ({ viewBox = '0 0 1 1', href, fill, className }) => {
     // using transient props here to not pass props like `width` to the
     // DOM because they are take effect in html for svg elements
     // https://stackoverflow.com/a/62604142
-    <Svg viewBox={viewBox} $fill={fill} className={className}>
+    <Svg $fill={fill} className={className} viewBox={viewBox}>
       {/*
         MDN says that using xlink:href is not recommended, therefore used href
       */}

@@ -6,11 +6,11 @@ export const ReactStarRatingComponent = ({ ...props }) => {
   return (
     <StyledStartRatingComponent
       name="rating"
-      renderStarIcon={(iconIndex, currRating) => {
+      renderStarIcon={(iconInd, currRating) => {
         return (
           <Icon
-            href={`rating${iconIndex > currRating ? '-border' : ''}`}
             className="w-8 h-8 text-yellow"
+            href={`rating${iconInd > currRating ? '-border' : ''}`}
           />
         );
       }}
