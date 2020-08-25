@@ -1,3 +1,4 @@
+export { baseInputsStateFromDataAndState } from './baseInputsStateFromDataAndState';
 export { delay } from './delay';
 export { filterProductsDataByInputs } from './filterProductsDataByInputs';
 export { findClosestNumber } from './findClosestNumber';

@@ -1,5 +1,5 @@
 import { Button, Navbar, Nav, Container } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 export const Header = () => {
   return (
@@ -21,8 +21,12 @@ export const Header = () => {
             </Nav.Link>
           </Nav>
           <div className="my-2 my-lg-0 d-flex align-items-center">
-            <Button className="mr-2">Login</Button>
-            <Button>Logout</Button>
+            <Button as={Link} className="mr-2 text-nowrap" to="/login">
+              Log In
+            </Button>
+            <Button as={Link} className="text-nowrap" to="/signup">
+              Sign Up
+            </Button>
           </div>
         </Navbar.Collapse>
       </Navbar>

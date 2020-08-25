@@ -12,7 +12,7 @@ export const ProductsSort = ({
   setIsSortOptionsToggledDataState,
   dispatchProductsDataLoad,
   BASE_IS_SORT_OPTIONS_TOGGLED_DATA_STATE,
-  className,
+  className = '',
 }) => {
   const onSortOptionsToggleClick = (dataKeyToSortWith) => {
     const isSortOptionsToggledData =

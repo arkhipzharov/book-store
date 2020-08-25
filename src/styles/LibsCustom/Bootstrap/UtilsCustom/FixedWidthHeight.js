@@ -1,10 +1,6 @@
-// cheatsheets for utils taken from other css frameworks:
-// tailwindcss - https://nerdcave.com/tailwind-cheat-sheet
-
 import { createGlobalStyle } from 'styled-components';
 
-export const UtilsCustom = createGlobalStyle`
-  /* tailwindcss */
+export const FixedWidthHeight = createGlobalStyle`
   ${['width', 'height'].map((propName, i) => {
     const classBase = propName === 'width' ? 'w' : 'h';
     return `

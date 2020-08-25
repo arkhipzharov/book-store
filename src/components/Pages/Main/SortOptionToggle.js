@@ -9,7 +9,7 @@ export const SortOptionToggle = ({
   isToggled = false,
   isToggledOnce = false,
   onClick,
-  className,
+  className = '',
 }) => {
   const [buttonVariant, setButtonVariant] = useState('outline-primary');
   const setButtonNewVariant = () => {
@@ -51,5 +51,5 @@ SortOptionToggle.propTypes = {
   isToggled: PropTypes.bool.isRequired,
   isToggledOnce: PropTypes.bool.isRequired,
   className: PropTypes.string,
-  onClick: PropTypes.func,
+  onClick: PropTypes.func.isRequired,
 };

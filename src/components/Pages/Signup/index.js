@@ -1,5 +1,5 @@
 import { AuthForm } from '@/components/Pages/AuthForm';
 
-export const Login = () => {
+export const Signup = () => {
   return <AuthForm />;
 };

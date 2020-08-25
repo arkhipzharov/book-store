@@ -1,7 +1,12 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-export const Icon = ({ viewBox = '0 0 1 1', href, fill, className }) => {
+export const Icon = ({
+  viewBox = '0 0 1 1',
+  href = '',
+  fill = '',
+  className = '',
+}) => {
   return (
     // using transient props here to not pass props like `width` to the
     // DOM because they are take effect in html for svg elements

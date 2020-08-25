@@ -6,8 +6,8 @@ import { Product } from './Product';
 
 export const ProductsGrid = ({
   productsData,
-  isFavorite = false,
-  isCart = false,
+  isFavoritePage = false,
+  isCartPage = false,
 }) => {
   return (
     <StyledCardColumns>
@@ -15,8 +15,8 @@ export const ProductsGrid = ({
         <Product
           key={data.name}
           data={data}
-          isCart={isCart}
-          isFavorite={isFavorite}
+          isCartPage={isCartPage}
+          isFavoritePage={isFavoritePage}
           isInCart={i % 3 === 0}
           isInFavorite={i % 3 === 0}
         />
@@ -26,8 +26,8 @@ export const ProductsGrid = ({
 };
 
 ProductsGrid.propTypes = {
-  isCart: PropTypes.bool,
-  isFavorite: PropTypes.bool,
+  isCartPage: PropTypes.bool,
+  isFavoritePage: PropTypes.bool,
   productsData: PropTypes.arrayOf(PropTypes.shape(ProductData)).isRequired,
 };
 

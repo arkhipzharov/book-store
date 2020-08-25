@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Row, Col, Form } from 'react-bootstrap';
-import { findClosestNumber } from '@/js/helpers';
+import * as h from '@/js/helpers';
 import { useRef, useEffect } from 'react';
 import { ProductData } from '@/js/types/ProductData';
 import { ReactBootstrapSliderWrapper } from './ReactBootstrapSliderWrapper';
@@ -13,6 +13,7 @@ export const PriceRangeField = ({
   minAndMaxRangePrices,
   setMinAndMaxRangePrices,
   isLoaded,
+  className = '',
 }) => {
   const isRenderedOnce = useRef(true);
   const getMinOrMaxPrice = (isMin) => {
@@ -44,7 +45,7 @@ export const PriceRangeField = ({
       if (isRangeInvalid) {
         newValue = isMin ? +currMaxPrice : +currMinPrice;
       } else if (isStaticMinMaxRangeInvalid) {
-        newValue = findClosestNumber(price, [minPrice, maxPrice]);
+        newValue = h.findClosestNumber(price, [minPrice, maxPrice]);
       } else {
         newValue = price;
       }
@@ -75,39 +76,30 @@ export const PriceRangeField = ({
     });
   }, [isLoaded]);
   return (
-    <div className="mb-3">
+    <div className={className}>
       <span className="mb-2 d-block">Price, USD:</span>
       <Form.Row as={Row} className="mb-0" sm={2} xs={1}>
-        <Col>
-          <Form.Group as={Form.Row} controlId="currMinPrice">
-            <Form.Label column sm={1.5}>
-              min:
-            </Form.Label>
-            <Col>
-              <Form.Control
-                ref={register}
-                name="currMinPrice"
-                placeholder={minAndMaxRangePrices.min}
-                onChange={onPriceInputsChange}
-              />
-            </Col>
-          </Form.Group>
-        </Col>
-        <Col>
-          <Form.Group as={Form.Row} controlId="currMaxPrice">
-            <Form.Label column sm={1.5}>
-              max:
-            </Form.Label>
-            <Col>
-              <Form.Control
-                ref={register}
-                name="currMaxPrice"
-                placeholder={minAndMaxRangePrices.max}
-                onChange={onPriceInputsChange}
-              />
-            </Col>
-          </Form.Group>
-        </Col>
+        {['currMinPrice', 'currMaxPrice'].map((name) => (
+          <Col key={name}>
+            <Form.Group as={Form.Row} controlId={name}>
+              <Form.Label sm={1.5} column>
+                {name === 'currMinPrice' ? 'min' : 'max'}:
+              </Form.Label>
+              <Col>
+                <Form.Control
+                  ref={register}
+                  name={name}
+                  placeholder={
+                    minAndMaxRangePrices[
+                      name === 'currMinPrice' ? 'min' : 'max'
+                    ]
+                  }
+                  onChange={onPriceInputsChange}
+                />
+              </Col>
+            </Form.Group>
+          </Col>
+        ))}
       </Form.Row>
       <ReactBootstrapSliderWrapper
         isLoaded={isLoaded}
@@ -137,4 +129,5 @@ PriceRangeField.propTypes = {
   register: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,
   setMinAndMaxRangePrices: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired,
 };

@@ -6,20 +6,25 @@ import { ReactStarRatingComponent } from '@/components/libs-custom';
 import { Icon } from '@/components/Icon';
 import { ProductData } from '@/js/types/ProductData';
 import { CHANGE } from '@/js/reducers/productsDataLoad';
+import * as h from '@/js/helpers';
 import { PriceRangeField } from './PriceRangeField';
-import { SearchWithSuggestFields } from './SearchWithSuggestFields';
+import { SearchWithSuggestField } from './SearchWithSuggestField';
+import { RatingField } from './RatingField';
 
 const BASE_INPUTS_DATA_AND_STATE = {
   name: {
     isSearchWithSuggest: true,
+    placeholder: 'abc',
     value: '',
   },
   author: {
     isSearchWithSuggest: true,
+    placeholder: 'George Orwell',
     value: '',
   },
   category: {
     isSearchWithSuggest: true,
+    placeholder: 'dystopia',
     value: '',
   },
   currMinPrice: '',
@@ -32,23 +37,18 @@ const BASE_INPUTS_DATA_AND_STATE = {
 export const ProductsFilterForm = memo(function ProductsFilterForm({
   productsData,
   isLoaded,
-  className,
+  className = '',
   dispatchProductsDataLoad,
 }) {
-  const searchWithSuggestInputNames = Object.keys(
+  const searchWithSuggestInputDataEntries = Object.entries(
     BASE_INPUTS_DATA_AND_STATE,
-  ).filter((key) => BASE_INPUTS_DATA_AND_STATE[key].isSearchWithSuggest);
+  ).filter((entry) => entry[1].isSearchWithSuggest);
   const searchWithSuggestInputRefs = useMemo(
-    () => searchWithSuggestInputNames.map(() => createRef()),
+    () => searchWithSuggestInputDataEntries.map(() => createRef()),
     [],
   );
-  const baseInputsState = Object.fromEntries(
-    Object.entries(BASE_INPUTS_DATA_AND_STATE).map(([key, dataOrValue]) => {
-      return [
-        key,
-        dataOrValue.value === undefined ? dataOrValue : dataOrValue.value,
-      ];
-    }),
+  const baseInputsState = h.baseInputsStateFromDataAndState(
+    BASE_INPUTS_DATA_AND_STATE,
   );
   const { handleSubmit, control, reset, watch, register, setValue } = useForm(
     baseInputsState,
@@ -62,14 +62,15 @@ export const ProductsFilterForm = memo(function ProductsFilterForm({
     const searchWithSuggestValidValueInputRefs = searchWithSuggestInputRefs.filter(
       (ref) => ref.current.getInput().value,
     );
-    const searchWithSuggestInputDataEntriesValid = Object.entries(
-      inputsData,
-    ).filter(([name, value]) => {
-      return (
-        searchWithSuggestInputNames.some((inputName) => inputName === name) &&
-        value
-      );
-    });
+    const searchWithSuggestInputDataEntriesValid = searchWithSuggestInputDataEntries.filter(
+      ([name, value]) => {
+        return (
+          searchWithSuggestInputDataEntries.some(
+            ([inputName]) => inputName === name,
+          ) && value
+        );
+      },
+    );
     if (
       searchWithSuggestValidValueInputRefs.length >
       searchWithSuggestInputDataEntriesValid.length
@@ -97,12 +98,15 @@ export const ProductsFilterForm = memo(function ProductsFilterForm({
     <div className={className}>
       <h4 className="mb-3">Filter</h4>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <SearchWithSuggestFields
-          control={control}
-          productsData={productsData}
-          searchWithSuggestInputNames={searchWithSuggestInputNames}
-          searchWithSuggestInputRefs={searchWithSuggestInputRefs}
-        />
+        {searchWithSuggestInputDataEntries.map(([name], i) => (
+          <SearchWithSuggestField
+            key={name}
+            ref={searchWithSuggestInputRefs[i]}
+            control={control}
+            inputName={name}
+            productsData={productsData}
+          />
+        ))}
         <PriceRangeField
           className="mb-3"
           inputsState={inputsState}
@@ -113,34 +117,12 @@ export const ProductsFilterForm = memo(function ProductsFilterForm({
           reset={reset}
           setMinAndMaxRangePrices={setMinAndMaxRangePrices}
         />
-        <Form.Group className="d-flex flex-column align-items-start">
-          <Form.Label>Rating:</Form.Label>
-          <div className="d-flex align-items-center">
-            <Controller
-              control={control}
-              defaultValue={baseInputsState.rating}
-              name="rating"
-              render={({ value, onChange }) => (
-                <ReactStarRatingComponent
-                  className="ml-n1 mr-2"
-                  renderStarIcon={(iconInd, currRating) => {
-                    return (
-                      <Icon
-                        className="w-8 h-8 text-yellow"
-                        href={`rating${iconInd > currRating ? '-border' : ''}`}
-                      />
-                    );
-                  }}
-                  value={+value}
-                  onStarClick={onChange}
-                />
-              )}
-            />
-            <Button size="sm" onClick={() => setValue('rating', 0)}>
-              Reset Rating
-            </Button>
-          </div>
-        </Form.Group>
+        <RatingField
+          baseInputsState={baseInputsState}
+          className="mb-3"
+          control={control}
+          setValue={setValue}
+        />
         <Button
           disabled={Object.values(inputsState).every((value) => !value)}
           type="submit"
