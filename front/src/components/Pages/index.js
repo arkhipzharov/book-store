@@ -1,11 +1,11 @@
 import { Switch, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import { PageNotFound } from './PageNotFound';
 import { Main } from './Main';
 import { Cart } from './Cart';
 import { Favorite } from './Favorite';
 import { Login } from './Login';
 import { Signup } from './Signup';
-import { PageNotFound } from './PageNotFound';
 import { User } from './User';
 import { Product } from './Product';
 

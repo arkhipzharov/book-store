@@ -1,2 +1,10 @@
-build/**/*.js
-src/libs-custom/**/*.js
+# why only one ignore file:
+# https://github.com/eslint/eslint/issues/6727#issuecomment-234632708
+
+# Frontend
+
+front/build/**/*.js
+front/src/js/libs-custom/**/*.js
+
+
+

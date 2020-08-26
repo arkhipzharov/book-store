@@ -1,9 +1,7 @@
 import { useState, memo, useMemo, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
-import { useForm, Controller } from 'react-hook-form';
-import { ReactStarRatingComponent } from '@/components/libs-custom';
-import { Icon } from '@/components/Icon';
+import { useForm } from 'react-hook-form';
 import { ProductData } from '@/js/types/ProductData';
 import { CHANGE } from '@/js/reducers/productsDataLoad';
 import * as h from '@/js/helpers';
@@ -98,12 +96,13 @@ export const ProductsFilterForm = memo(function ProductsFilterForm({
     <div className={className}>
       <h4 className="mb-3">Filter</h4>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {searchWithSuggestInputDataEntries.map(([name], i) => (
+        {searchWithSuggestInputDataEntries.map(([name, { placeholder }], i) => (
           <SearchWithSuggestField
             key={name}
             ref={searchWithSuggestInputRefs[i]}
             control={control}
             inputName={name}
+            placeholder={placeholder}
             productsData={productsData}
           />
         ))}

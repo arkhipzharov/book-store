@@ -7,7 +7,10 @@ import { ProductData } from '@/js/types/ProductData';
 import { forwardRef } from 'react';
 
 export const SearchWithSuggestField = forwardRef(
-  function SearchWithSuggestField({ control, productsData, inputName }, ref) {
+  function SearchWithSuggestField(
+    { control, productsData, inputName, placeholder },
+    ref,
+  ) {
     return (
       <Form.Group>
         <Form.Label>{_.upperFirst(inputName)}:</Form.Label>
@@ -21,6 +24,7 @@ export const SearchWithSuggestField = forwardRef(
               id={inputName}
               labelKey={inputName}
               options={productsData}
+              placeholder={placeholder}
               onChange={([data]) => onChange(data ? data[inputName] : '')}
             />
           )}
@@ -32,6 +36,7 @@ export const SearchWithSuggestField = forwardRef(
 
 SearchWithSuggestField.propTypes = {
   control: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  productsData: PropTypes.arrayOf(PropTypes.shape(ProductData)).isRequired,
   inputName: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  productsData: PropTypes.arrayOf(PropTypes.shape(ProductData)).isRequired,
 };

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
 
 const FIRST_NAME_FAKE = 'John';
 const LAST_NAME_FAKE = 'Johnson';

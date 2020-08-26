@@ -11,6 +11,7 @@ import './js/startup';
 // so you should import file with .css (or .scss/etc) extension instead of shorter path
 // https://github.com/benmosher/eslint-plugin-import/issues/151#issuecomment-167003063
 import 'bootstrap-slider/dist/css/bootstrap-slider.css';
+// import { StrictMode } from 'react';
 
 const Root = () => {
   return (
@@ -21,7 +22,7 @@ const Root = () => {
     // Also keep in mind that StrictMode will render components twice
     // https://stackoverflow.com/a/61961751
     // https://stackoverflow.com/a/61897567
-    // <React.StrictMode>
+    // <StrictMode>
     <>
       <GlobalStyles />
       <StyleSheetManagerCustom>
@@ -32,7 +33,7 @@ const Root = () => {
         </Router>
       </StyleSheetManagerCustom>
     </>
-    // </React.StrictMode>
+    // </StrictMode>
   );
 };
 

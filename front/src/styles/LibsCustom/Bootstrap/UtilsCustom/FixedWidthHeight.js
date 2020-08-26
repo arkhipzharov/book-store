@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const FixedWidthHeight = createGlobalStyle`
-  ${['width', 'height'].map((propName, i) => {
+  ${['width', 'height'].map((propName) => {
     const classBase = propName === 'width' ? 'w' : 'h';
     return `
       .${classBase}-1 {

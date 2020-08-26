@@ -14,5 +14,7 @@ module.exports = {
     /btn\-/,
     /card\-/,
     /badge\-/,
+    /col\-/,
+    /nav\-/,
   ],
 };

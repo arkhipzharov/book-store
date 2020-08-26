@@ -17,12 +17,12 @@ export const Avatar = ({ className = '' }) => {
       e.target.value = '';
     }
   };
-  const onFileLoad = (file) => {
+  const onFileLoad = () => {
     // backend
   };
   return (
     <Row className={className}>
-      <Col className="mr-lg-5 mb-4 mb-lg-0" lg="auto">
+      <Col className="mr-lg-5" lg="auto">
         <ReactAvatarEdit
           e="Choose Avatar Image"
           height={295}
@@ -34,7 +34,7 @@ export const Avatar = ({ className = '' }) => {
         />
       </Col>
       {previewSrc && (
-        <Col className="d-lg-flex align-items-md-center">
+        <Col className="d-lg-flex align-items-md-center mt-4 mt-lg-0">
           <img alt="Avatar preview" src={previewSrc} title="Avatar preview" />
         </Col>
       )}

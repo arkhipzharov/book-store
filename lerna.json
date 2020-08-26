@@ -1,0 +1,7 @@
+{
+  "packages": [
+    "back",
+    "front"
+  ],
+  "version": "1.0.0"
+}
