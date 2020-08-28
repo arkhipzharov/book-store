@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    // vscode path completion fix for webpack aliases
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"],
-    },
-  },
-}

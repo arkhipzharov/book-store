@@ -3,8 +3,7 @@
 
 # Frontend
 
-front/build/**/*.js
-front/src/js/libs-custom/**/*.js
+app/sides/front/build/**/*.js
+app/sides/front/src/js/libs-custom/**/*.js
 
-
-
+node_modules/

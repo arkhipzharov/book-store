@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    // vscode path completion fix for path aliases
+    "baseUrl": "./",
+    "paths": {
+      // root of shareable and frontend/backend specific code
+      "@/*": ["./app/*"],
+      "@back/*": ["./app/sides/back/src/*"],
+      "@front/*": ["./app/sides/front/src/*"]
+    }
+  }
+}

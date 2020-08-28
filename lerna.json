@@ -1,7 +1,6 @@
 {
   "packages": [
-    "back",
-    "front"
+    "app/sides/*"
   ],
   "version": "1.0.0"
 }

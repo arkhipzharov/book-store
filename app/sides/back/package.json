@@ -1,0 +1,21 @@
+{
+  "name": "back",
+  "private": true,
+  "scripts": {
+    "app": "nodemon --no-warnings --require esm --require module-alias/register --experimental-specifier-resolution=node src/app.js"
+  },
+  "dependencies": {
+    "esm": "^3.2.25",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-node": "^11.1.0",
+    "module-alias": "^2.2.2"
+  },
+  "_moduleAliases": {
+    "~": "../../../app",
+    "@back": "./src"
+  }
+}
