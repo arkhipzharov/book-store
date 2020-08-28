@@ -53,11 +53,6 @@ examples:
 
 `npm run un -- <package> [--scope=xxx]`
 
-## Make commit
-
-Just `git commit`, because `git add .` and pre-commit code formatting with
-eslint handled already
-
 ## Lint
 
 `npm run lint`

@@ -2,7 +2,7 @@
   "name": "back",
   "private": true,
   "scripts": {
-    "app": "nodemon --no-warnings --require esm --require module-alias/register --experimental-specifier-resolution=node src/app.js"
+    "app": "nodemon --require esm --require module-alias/register --experimental-specifier-resolution=node src/app.js"
   },
   "dependencies": {
     "esm": "^3.2.25",
@@ -15,7 +15,7 @@
     "module-alias": "^2.2.2"
   },
   "_moduleAliases": {
-    "~": "../../../app",
+    "@": "../../../app",
     "@back": "./src"
   }
 }

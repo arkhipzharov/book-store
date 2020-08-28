@@ -22,11 +22,6 @@ module.exports = _.merge(baseConfig, {
   env: {
     node: true,
   },
-  parserOptions: {
-    // Parsing error: 'import' and 'export' may appear only with 'sourceType: module'
-    // https://github.com/eslint/eslint/issues/5552#issuecomment-195544822
-    sourceType: 'module',
-  },
   overrides: [
     {
       files: ['.eslintrc.*'],
