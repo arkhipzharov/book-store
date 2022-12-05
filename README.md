@@ -5,7 +5,7 @@ preview available [here](http://lime-test.h1n.ru/book-store)
 
 ## 📥 Setup
 
-1. `git clone https://github.com/shiftenko/book-store`
+1. `git clone https://github.com/arkhipzharov/book-store`
 2. `npm run setup` (link and install all dependencies, create cache files)
 
 ## Backend development
