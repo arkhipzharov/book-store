@@ -1,12 +1,13 @@
 # Book store
 
 App where you can add, edit and view books. Live
-preview available [here](http://lime-test.h1n.ru/book-store)
+preview available [here](https://arkhipzharov.github.io/book-store/)
 
 ## 📥 Setup
 
 1. `git clone https://github.com/arkhipzharov/book-store`
 2. `npm run setup` (link and install all dependencies, create cache files)
+3. `git worktree add dist gh-pages`
 
 ## Backend development
 
@@ -20,7 +21,15 @@ preview available [here](http://lime-test.h1n.ru/book-store)
 
 ### 🌐 Production
 
-`npm run build`
+> You can read more about this approach
+[here](https://medium.com/linagora-engineering/deploying-your-js-app-to-github-pages-the-easy-way-or-not-1ef8c48424b7)
+
+1. `npm run build`
+2. `cd dist`
+3. `git add .`
+4. `git commit`
+5. `git push origin gh-pages`
+6. wait a bit and check updates [here](https://arkhipzharov.github.io/book-store/)
 
 ## Packages
 
